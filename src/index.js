@@ -44,3 +44,8 @@ Model.init({
   modelName: 'blog'
 })
 Blog.sync()
+
+app.get('/api/blogs', async (_req, res) => {
+  const blogs = await Blog.findAll()
+  res.json(blogs)
+})

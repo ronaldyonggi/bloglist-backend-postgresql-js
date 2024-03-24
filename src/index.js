@@ -58,3 +58,13 @@ app.post('/api/blogs', async (req, res) => {
     return res.status(400).json({ error })
   }
 })
+
+app.delete('/api/blogs/:id', async (req, res) => {
+  const blogToBeDeleted = await Blog.findByPk(req.params.id)
+  if (blogToBeDeleted) {
+    await blogToBeDeleted.destroy()
+    return res.status(204).end()
+  } else {
+    res.status(400).end()
+  }
+})

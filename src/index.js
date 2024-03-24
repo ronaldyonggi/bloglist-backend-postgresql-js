@@ -49,3 +49,12 @@ app.get('/api/blogs', async (_req, res) => {
   const blogs = await Blog.findAll()
   res.json(blogs)
 })
+
+app.post('/api/blogs', async (req, res) => {
+  try {
+    const newBlog = await Blog.create(req.body)
+    return res.json(newBlog)
+  } catch(error) {
+    return res.status(400).json({ error })
+  }
+})

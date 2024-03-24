@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/index.js",
+    "cli": "nodemon ./src/cli.js",
     "lint": "eslint . --fix"
   },
   "keywords": [],

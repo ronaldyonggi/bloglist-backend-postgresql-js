@@ -7,7 +7,7 @@ const sequelize = new Sequelize(config.DATABASE_URL)
 const main = async () => {
   try {
     await sequelize.authenticate()
-    const blogs = await sequelize.query('SELECT * FROM blogs', { type: QueryTypes.SELECT})
+    const blogs = await sequelize.query('SELECT * FROM blogs', { type: QueryTypes.SELECT })
     blogs.map(b => {
       console.log(`${b.author}: '${b.title}', ${b.likes} likes`)
     })

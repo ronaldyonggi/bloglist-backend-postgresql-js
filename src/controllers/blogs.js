@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const blogsRouter = require('express').Router()
 const { Blog } = require('../models')
 
 // Middleware for finding a specific blog
@@ -7,12 +7,12 @@ const blogFinder = async (req, res, next) => {
   next()
 }
 
-router.get('/', async ( req, res ) => {
+blogsRouter.get('/', async ( req, res ) => {
   const blogs = await Blog.findAll()
   res.json(blogs)
 })
 
-router.get('/:id', blogFinder, async (req, res) => {
+blogsRouter.get('/:id', blogFinder, async (req, res) => {
   if (req.blog) {
     res.json(req.blog)
   } else {
@@ -20,7 +20,7 @@ router.get('/:id', blogFinder, async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+blogsRouter.post('/', async (req, res) => {
   try {
     const blog = await Blog.create(req.body)
     return res.json(blog)
@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res) => {
+blogsRouter.delete('/:id', blogFinder, async (req, res) => {
   if (req.blog) {
     await req.blog.destroy()
     return res.status(204).end()
@@ -38,7 +38,7 @@ router.delete('/:id', blogFinder, async (req, res) => {
   }
 })
 
-router.put('/:id', blogFinder, async (req, res) => {
+blogsRouter.put('/:id', blogFinder, async (req, res) => {
   if (req.blog) {
     req.blog.likes = req.body.likes
     await req.blog.save()
@@ -48,4 +48,4 @@ router.put('/:id', blogFinder, async (req, res) => {
   }
 })
 
-module.exports = router
+module.exports = blogsRouter

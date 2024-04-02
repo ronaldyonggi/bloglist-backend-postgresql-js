@@ -22,9 +22,20 @@ blogsRouter.get('/:id', blogFinder, async (req, res) => {
   }
 })
 
+// CREATE a blog
 blogsRouter.post('/', async (req, res) => {
+  const user = req.user
+
+  if (!user) {
+    return res.status(400).json({ error: 'User not found!' })
+  }
+
   try {
-    const blog = await Blog.create(req.body)
+    const newBlog = {
+      ...req.body,
+      userId: user.id
+    }
+    const blog = await Blog.create(newBlog)
     return res.json(blog)
   } catch (error) {
     return res.status(400).json({ error })

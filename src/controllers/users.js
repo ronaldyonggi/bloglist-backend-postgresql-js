@@ -29,4 +29,23 @@ usersRouter.post('/', async (req, res) => {
   }
 })
 
+// MODIFY a user. Used for modifying a user's username
+usersRouter.put('/:username', async (req, res) => {
+  const usernameParams = req.params.username
+  const newUsername = req.body.newUsername
+
+  try {
+    const userToModify = await User.findOne({ where: { username: usernameParams } })
+    if (!userToModify) {
+      return res.status(404).json({ error: 'User not found!'})
+    }
+    await userToModify.update({ username: newUsername })
+    await userToModify.save()
+    return res.json(userToModify)
+  } catch (error) {
+    return res.status(400).json({ error: "Something is wrong with modifying user's username!" })
+  }
+
+})
+
 module.exports = usersRouter

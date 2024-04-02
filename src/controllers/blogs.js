@@ -47,7 +47,7 @@ blogsRouter.delete('/:id', blogFinder, async (req, res) => {
     await req.blog.destroy()
     return res.status(204).end()
   } else {
-    res.status(400).end()
+    return res.status(400).end()
   }
 })
 

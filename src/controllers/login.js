@@ -6,17 +6,18 @@ const bcrypt = require('bcrypt')
 
 // LOGIN functionality
 loginRouter.post('/', async (req, res) => {
+  const body = req.body
 
   const user = await User.findOne({
     where: {
-      username: req.body.username
+      username: body.username
     }
   })
 
   // Check if user is found AND password is correct
   const passwordCorrect = !user
     ? false
-    : await bcrypt.compare(req.body.password, user.passwordHash)
+    : await bcrypt.compare(body.password, user.passwordHash)
 
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
@@ -40,7 +41,7 @@ loginRouter.post('/', async (req, res) => {
     .send({
       token,
       username: user.username,
-      name: user.name
+      name: user.name,
     })
 })
 

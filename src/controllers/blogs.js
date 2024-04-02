@@ -7,11 +7,13 @@ const blogFinder = async (req, res, next) => {
   next()
 }
 
+// GET all blogs
 blogsRouter.get('/', async ( req, res ) => {
   const blogs = await Blog.findAll()
   res.json(blogs)
 })
 
+// GET a specific blog
 blogsRouter.get('/:id', blogFinder, async (req, res) => {
   if (req.blog) {
     res.json(req.blog)

@@ -2,6 +2,7 @@ const usersRouter = require('express').Router()
 const { User, Blog } = require('../models')
 const bcrypt = require('bcrypt')
 
+// GET all users
 usersRouter.get('/', async (req, res) => {
   const users = await User.findAll({
     include: {

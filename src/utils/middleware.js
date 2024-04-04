@@ -28,8 +28,17 @@ const errorHandler = (error, req, res, next) => {
   console.log('Error name: ' + error.name)
   console.log('Error message: ' + error.message)
 
-  res.status(400).end()
-  return next(error)
+  switch (error.name) {
+    case 'SequelizeValidationError':
+      return res.status(400).json({ error: 'Username needs to use email format!' })
+    case 'JsonWebTokenError':
+      return res.status(401).json({ error: 'Token missing or invalid!'})
+    case 'TokenExpiredError':
+      return res.status(401).json({ error: 'Token expired'})
+    default:
+      return res.status(400).json({ error })
+  }
+
 }
 
 module.exports = {

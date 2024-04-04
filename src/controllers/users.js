@@ -10,7 +10,7 @@ usersRouter.get('/', async (req, res) => {
       attributes: { exclude: ['userId'] }
     }
   })
-  res.json(users)
+  return res.json(users)
 })
 
 // CREATE a new user
@@ -22,12 +22,9 @@ usersRouter.post('/', async (req, res) => {
   const newUser = {
     username, name, passwordHash
   }
-  try {
-    const user = await User.create(newUser)
-    return res.json(user)
-  } catch (error) {
-    return res.status(400).json({ error })
-  }
+
+  const user = await User.create(newUser)
+  return res.json(user)
 })
 
 // MODIFY a user. Used for modifying a user's username

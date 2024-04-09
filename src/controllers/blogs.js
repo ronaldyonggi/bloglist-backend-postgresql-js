@@ -43,12 +43,23 @@ blogsRouter.post('/', async (req, res) => {
 })
 
 blogsRouter.delete('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
-    await req.blog.destroy()
-    return res.status(204).end()
-  } else {
-    return res.status(400).end()
+  const user = req.user
+
+  if (!user) {
+    return res.status(400).json({ error: 'User not found!' })
   }
+
+  if (!req.blog) {
+    return res.status(400).json({ error: 'blog not found!'})
+  }
+
+  if (!(user.id === req.blog.userId)) {
+    return res.status(401).json({ error: 'Unauthorized to delete blog!'})
+  }
+
+  await req.blog.destroy()
+  return res.status(204).end()
+
 })
 
 blogsRouter.put('/:id', blogFinder, async (req, res) => {

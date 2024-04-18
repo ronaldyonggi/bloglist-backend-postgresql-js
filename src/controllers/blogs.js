@@ -8,10 +8,15 @@ const blogFinder = async (req, res, next) => {
 }
 
 // GET all blogs
-blogsRouter.get('/', async ( req, res ) => {
-  const blogs = await Blog.findAll()
-  res.json(blogs)
-})
+blogsRouter.get('/', async (req, res) => {
+  const blogs = await Blog.findAll({
+    include: {
+      model: User,
+      attributes: ['name'],
+    },
+  });
+  res.json(blogs);
+});
 
 // GET a specific blog
 blogsRouter.get('/:id', blogFinder, async (req, res) => {

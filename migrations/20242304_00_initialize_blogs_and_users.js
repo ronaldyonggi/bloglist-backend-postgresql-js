@@ -61,7 +61,7 @@ module.exports = {
       },
     });
 
-    await queryInterface.createTable('blogs', 'user_id', {
+    await queryInterface.addColumn('blogs', 'user_id', {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {

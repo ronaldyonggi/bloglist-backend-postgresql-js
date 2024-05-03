@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon ./src/index.js",
     "cli": "nodemon ./src/cli.js",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "migration:down" : "node ./src/utils/rollback.js"
   },
   "keywords": [],
   "author": "",

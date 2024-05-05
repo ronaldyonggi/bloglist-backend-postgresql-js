@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt');
 // GET all users
 usersRouter.get('/', async (req, res) => {
   const users = await User.findAll({
+    attributes: {
+      exclude: ['passwordHash'],
+    },
     include: {
       model: Blog,
       attributes: { exclude: ['userId'] },

@@ -5,12 +5,31 @@ const bcrypt = require('bcrypt');
 // GET all users
 usersRouter.get('/', async (req, res) => {
   const users = await User.findAll({
+    attributes: {
+      exclude: ['passwordHash'],
+    },
     include: {
       model: Blog,
       attributes: { exclude: ['userId'] },
     },
   });
   return res.json(users);
+});
+
+// GET a specific user
+usersRouter.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: ['name', 'username'],
+    include: {
+      model: Blog,
+      as: 'readings',
+      attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
+      through: {
+        attributes: [],
+      },
+    },
+  });
+  return res.json(user);
 });
 
 // CREATE a new user
@@ -47,7 +66,7 @@ usersRouter.put('/:username', async (req, res) => {
   } catch (error) {
     return res
       .status(400)
-      .json({ error: "Something is wrong with modifying user's username!" });
+      .json({ error: 'Something is wrong with modifying user username!' });
   }
 });
 

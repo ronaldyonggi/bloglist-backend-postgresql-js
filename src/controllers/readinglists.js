@@ -17,16 +17,32 @@ readinglistsRouter.post('/', async (req, res) => {
 
   const userId = user.id;
 
-  try {
-    const { blogId } = req.body;
-    const successfulCreatedReadingList = await ReadingList.create({
-      blogId,
-      userId,
-    });
-    return res.json(successfulCreatedReadingList);
-  } catch (error) {
-    return res.status(400).json({ error });
+// PUT a reading list, changing its "read" attribute from false to true, or vice versa
+readinglistsRouter.put('/:id', async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(400).json({ error: 'User not found!' });
   }
+
+  const userId = user.id;
+  const blogId = req.params.id;
+  const { read } = req.body;
+
+  const matchedUserBlogCombination = await ReadingList.findOne({
+    where: {
+      userId: userId,
+      blogId: blogId,
+    },
+  });
+
+  if (!matchedUserBlogCombination) {
+    return res.status(404).json({ error: 'reading list not found' });
+  }
+
+  matchedUserBlogCombination.read = read;
+  await matchedUserBlogCombination.save();
+
+  res.json(matchedUserBlogCombination);
 });
 
 module.exports = readinglistsRouter;

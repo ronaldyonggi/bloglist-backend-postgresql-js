@@ -2,20 +2,16 @@ const readinglistsRouter = require('express').Router();
 const { ReadingList } = require('../models');
 
 readinglistsRouter.post('/', async (req, res) => {
-  // const user = req.user;
+  const user = req.user;
 
-  // if (!user) {
-  //   return res.status(400).json({ error: 'User not found!' });
-  // }
+  if (!user) {
+    return res.status(400).json({ error: 'User not found!' });
+  }
+
+  const userId = user.id;
 
   try {
-    // console.log(user.id);
-    // const newReadingList = {
-    //   userId: user.id,
-    //   blogId: req.body.blogId,
-    // };
-
-    const { blogId, userId } = req.body;
+    const { blogId } = req.body;
     const successfulCreatedReadingList = await ReadingList.create({
       blogId,
       userId,

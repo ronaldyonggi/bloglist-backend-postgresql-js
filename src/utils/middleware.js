@@ -24,11 +24,11 @@ const userExtractor = async (req, res, next) => {
 };
 
 // Error handler middleware
-const errorHandler = (error, req, res, next) => {
-  console.log('Error name: ' + error.name);
-  console.log('Error message: ' + error.message);
+const errorHandler = (err, req, res, next) => {
+  console.log('Error name: ' + err.name);
+  console.log('Error message: ' + err.message);
 
-  switch (error.name) {
+  switch (err.name) {
     case 'SequelizeValidationError':
       return res
         .status(400)
@@ -38,7 +38,7 @@ const errorHandler = (error, req, res, next) => {
     case 'TokenExpiredError':
       return res.status(401).json({ error: 'Token expired' });
     default:
-      return res.status(400).json({ error });
+      return res.status(400).json({ error: err });
   }
 };
 

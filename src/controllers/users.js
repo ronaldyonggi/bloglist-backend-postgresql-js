@@ -66,7 +66,7 @@ usersRouter.put('/:username', async (req, res) => {
   } catch (error) {
     return res
       .status(400)
-      .json({ error: "Something is wrong with modifying user's username!" });
+      .json({ error: 'Something is wrong with modifying user username!' });
   }
 });
 

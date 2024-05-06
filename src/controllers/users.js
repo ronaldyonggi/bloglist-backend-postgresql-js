@@ -1,5 +1,6 @@
 const usersRouter = require('express').Router();
-const { User, Blog } = require('../models');
+const { Op } = require('sequelize');
+const { User, Blog, ReadingList } = require('../models');
 const bcrypt = require('bcrypt');
 
 // GET all users
@@ -18,6 +19,11 @@ usersRouter.get('/', async (req, res) => {
 
 // GET a specific user
 usersRouter.get('/:id', async (req, res) => {
+  const where = {};
+  if (req.query.read) {
+    where.read = `${req.query.read}`;
+  }
+
   const user = await User.findByPk(req.params.id, {
     attributes: ['name', 'username'],
     include: {
@@ -26,6 +32,7 @@ usersRouter.get('/:id', async (req, res) => {
       attributes: { exclude: ['createdAt', 'updatedAt', 'userId'] },
       through: {
         attributes: ['read', 'id'],
+        where,
       },
     },
   });

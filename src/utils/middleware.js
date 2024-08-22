@@ -1,12 +1,20 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { SECRET } = require('../utils/config');
+const { getAsync } = require('./redis');
 
 // If request header Authorization contains a token, sets req.token to be that token
-const tokenExtractor = (req, res, next) => {
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization');
   if (authorization && authorization.startsWith('Bearer ')) {
-    req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
+    // fetch the token part after 'bearer '
+    const tokenBeforeDecoded = authorization.substring(7);
+    // fetch the user id associated with the token from redis
+    const userIdInRedis = await getAsync(String(tokenBeforeDecoded));
+    // If token exists in redis, proceed
+    if (userIdInRedis) {
+      req.decodedToken = jwt.verify(tokenBeforeDecoded, SECRET);
+    }
   }
 
   next();

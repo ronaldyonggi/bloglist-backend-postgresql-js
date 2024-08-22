@@ -3,6 +3,7 @@ const loginRouter = require('express').Router();
 const { SECRET } = require('../utils/config');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const { setAsync } = require('../utils/redis');
 
 // LOGIN functionality
 loginRouter.post('/', async (req, res) => {
@@ -31,6 +32,10 @@ loginRouter.post('/', async (req, res) => {
   };
 
   const token = jwt.sign(userForToken, SECRET, { expiresIn: 60 * 60 });
+
+  // Store token as active sessions to redis
+  setAsync(String(token), String(user.id));
+  setAsync(String(user.id), String(token));
 
   return res.status(200).send({
     token,

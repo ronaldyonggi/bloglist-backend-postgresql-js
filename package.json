@@ -7,7 +7,8 @@
     "dev": "nodemon ./src/index.js",
     "cli": "nodemon ./src/cli.js",
     "lint": "eslint . --fix",
-    "migration:down" : "node ./src/utils/rollback.js"
+    "migration:down": "node ./src/utils/rollback.js",
+    "update": "npm update --save"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.3",
     "umzug": "^3.8.0"
   },

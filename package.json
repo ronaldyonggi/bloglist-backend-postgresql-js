@@ -7,7 +7,8 @@
     "dev": "nodemon ./src/index.js",
     "cli": "nodemon ./src/cli.js",
     "lint": "eslint . --fix",
-    "migration:down" : "node ./src/utils/rollback.js"
+    "migration:down": "node ./src/utils/rollback.js",
+    "update": "npm update --save"
   },
   "keywords": [],
   "author": "",
@@ -19,13 +20,14 @@
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.11.5",
+    "pg": "^8.12.0",
+    "redis": "^4.7.0",
     "sequelize": "^6.37.3",
-    "umzug": "^3.8.0"
+    "umzug": "^3.8.1"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-js": "^1.7.2",
+    "@stylistic/eslint-plugin-js": "^1.8.1",
     "eslint": "^8.57.0",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.4"
   }
 }

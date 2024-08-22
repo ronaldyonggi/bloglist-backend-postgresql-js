@@ -1,6 +1,5 @@
 const usersRouter = require('express').Router();
-const { Op } = require('sequelize');
-const { User, Blog, ReadingList } = require('../models');
+const { User, Blog, } = require('../models');
 const bcrypt = require('bcrypt');
 
 // GET all users
